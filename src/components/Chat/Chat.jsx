@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
 import { Container, ChatCard, H3, HR, FormControl, DarkButton, TextInput, ChatHeader, ChatBody, ChatMessage } from './styles';
 
 const Chat = ({
@@ -41,9 +41,11 @@ const Chat = ({
 
     useEffect(() => {
         socketServer.on('messages:sent', data => {
-            setChatMessages(list => [...list, data]);
+            setChatMessages(list => {
+                return [...list, data]
+            });
         });
-    }, [socketServer]);
+    }, [socketServer])
 
     return (
         <Container>
@@ -53,9 +55,7 @@ const Chat = ({
                     <HR/>
                 </ChatHeader>
                 <ChatBody>
-                    {chatMessages.map(message => {
-                        <h1>{message}</h1>
-                    })}
+                    {chatMessages.map(message => <div>{message.text}</div>)}
                 </ChatBody>
                 <FormControl>
                     <TextInput placeholder='Digite sua mensagem' onChange={event => setCurrentMessage(event.target.value)}/>
